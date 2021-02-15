@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
-
             lifecycleScope.launch {
                 if(viewModel.checkUserAuth()){
                     supportFragmentManager.commit {
