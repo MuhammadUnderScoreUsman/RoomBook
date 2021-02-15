@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.mohammadosman.roomsocialrdb.data.model.User
 import com.mohammadosman.roomsocialrdb.data.model.UserAccount
-import com.mohammadosman.roomsocialrdb.data.relations.UserAndUserAccounts
+import com.mohammadosman.roomsocialrdb.data.relations.onetoone.UserAndUserAccounts
 
 @Dao
 interface UserDao {
@@ -25,4 +25,13 @@ interface UserDao {
 
     @Query("Select * from user where room_mail_address = :rMail")
     suspend fun checkUserViaEmail(rMail: String): User?
+
+    @Query("Select * from user_account")
+    suspend fun checkAuth(): UserAccount?
+
+    @Query("Update user_account SET login_auth = :loginAu where uid = :id")
+    suspend fun updateUserAccForLoginAuth(
+        id: String?,
+        loginAu: String?
+    ): Int
 }

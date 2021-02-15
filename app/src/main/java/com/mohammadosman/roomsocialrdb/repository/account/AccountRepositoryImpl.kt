@@ -1,4 +1,4 @@
-package com.mohammadosman.roomsocialrdb.repository
+package com.mohammadosman.roomsocialrdb.repository.account
 
 import android.app.Application
 import com.mohammadosman.roomsocialrdb.data.dao.UserDao
@@ -113,15 +113,28 @@ class AccountRepositoryImpl(
                 val checkInBoth = userDao.getUser(userName = userName)
                 checkInBoth?.let { check ->
                     if (check.user.userName == userName && check.userAccount?.userName == userName) {
-                        emit(Response.Success(Unit, SuccessFully_LoginIn))
+                        val updateUser = userDao.updateUserAccForLoginAuth(
+                            id = check.userAccount.uid ?: "",
+                            loginAu = check.userAccount.uid ?: ""
+                        )
+                        if (updateUser > 0) {
+                            emit(Response.Success(Unit, SuccessFully_LoginIn))
+                        } else {
+                            emit(Response.Error(null, NoSuch_Acc))
+                        }
                     }
                 } ?: emit(Response.Error(null, NoSuch_Acc))
             }
         }
     }
 
-    companion object {
 
+    override suspend fun checkAuth(): Boolean {
+        val authU = userDao.checkAuth()
+        return authU?.loginAuth?.isNotEmpty() == true || authU?.loginAuth != null
+    }
+
+    companion object {
         const val Success_AccountCreated =
             "Account Created, both Parent And Child table has been Successfully populated!!"
 
@@ -129,4 +142,6 @@ class AccountRepositoryImpl(
 
         const val NoSuch_Acc = "No Such Account Exists!!"
     }
+
+
 }

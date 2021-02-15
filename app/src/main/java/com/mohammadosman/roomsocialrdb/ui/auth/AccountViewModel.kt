@@ -3,10 +3,9 @@ package com.mohammadosman.roomsocialrdb.ui.auth
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.mohammadosman.roomsocialrdb.repository.AccountRepository
-import com.mohammadosman.roomsocialrdb.repository.AccountRepositoryImpl
+import com.mohammadosman.roomsocialrdb.repository.account.AccountRepository
+import com.mohammadosman.roomsocialrdb.repository.account.AccountRepositoryImpl
 import com.mohammadosman.roomsocialrdb.util.Response
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
@@ -49,6 +48,8 @@ class AccountViewModel(
             responseReturn(it)
         }.launchIn(viewModelScope)
     }
+
+    suspend fun checkUserAuth() = accountRepository.checkAuth()
 
 
 }

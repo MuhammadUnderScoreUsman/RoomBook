@@ -1,4 +1,4 @@
-package com.mohammadosman.roomsocialrdb.repository
+package com.mohammadosman.roomsocialrdb.repository.account
 
 import com.mohammadosman.roomsocialrdb.util.Response
 import kotlinx.coroutines.flow.Flow
@@ -15,5 +15,7 @@ interface AccountRepository {
     fun loginAccount(
         userName: String
     ): Flow<Response<Unit>>
+
+    suspend fun checkAuth(): Boolean
 
 }

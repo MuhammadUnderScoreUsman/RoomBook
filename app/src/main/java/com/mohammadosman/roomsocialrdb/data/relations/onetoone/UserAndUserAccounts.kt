@@ -1,4 +1,4 @@
-package com.mohammadosman.roomsocialrdb.data.relations
+package com.mohammadosman.roomsocialrdb.data.relations.onetoone
 
 import androidx.room.Embedded
 import androidx.room.Relation

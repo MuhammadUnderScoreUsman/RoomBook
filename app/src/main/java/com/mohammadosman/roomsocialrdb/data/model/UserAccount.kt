@@ -15,5 +15,8 @@ data class UserAccount(
     @ColumnInfo(name = "profile_pic")
     val profilePic: Int?,
 
+    @ColumnInfo(name = "login_auth")
+    val loginAuth: String? = null,
+
     val uid: String? = null
 )

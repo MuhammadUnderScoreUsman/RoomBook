@@ -4,12 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.*
 import androidx.lifecycle.lifecycleScope
 import com.mohammadosman.roomsocialrdb.R
 import com.mohammadosman.roomsocialrdb.databinding.FragmentSignInBinding
-import com.mohammadosman.roomsocialrdb.repository.AccountRepositoryImpl.Companion.SuccessFully_LoginIn
+import com.mohammadosman.roomsocialrdb.repository.account.AccountRepositoryImpl.Companion.SuccessFully_LoginIn
 import com.mohammadosman.roomsocialrdb.ui.posts.PostFragment
 import com.mohammadosman.roomsocialrdb.util.Response
 import kotlinx.coroutines.flow.collect
