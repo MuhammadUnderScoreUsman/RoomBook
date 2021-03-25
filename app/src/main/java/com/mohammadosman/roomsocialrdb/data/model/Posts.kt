@@ -17,5 +17,5 @@ data class Posts(
     @ColumnInfo(name = "post_desc")
     val postDesc: String? = null,
 
-    val uAid: String? = null,
+    val uid: String? = null,
 )

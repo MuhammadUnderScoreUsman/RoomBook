@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flow
 import java.util.*
 
 class AccountRepositoryImpl(
-    private val app: Application
+    app: Application
 ) : AccountRepository {
 
     var userDao: UserDao
@@ -44,15 +44,20 @@ class AccountRepositoryImpl(
                     userName = userName
                 )
 
-                val checkUser = userDao
+                val checkUserEmail = userDao
                     .checkUserViaEmail(insertUser.roomMail)
 
+                val checkUserName = userDao.checkUserViaUsername(
+                    insertUser.userName
+                )
 
-                if (insertUser.roomMail == checkUser?.roomMail ?: "") {
+                if (insertUser.roomMail == checkUserEmail?.roomMail ?: "" ||
+                    insertUser.userName == checkUserName?.userName
+                ) {
                     emit(
                         Response.Error(
                             data = null,
-                            error = "Can't build account on same Id " +
+                            error = "Can't build account on same email Id or username " +
                                     "Because it is One to One Relation!!"
                         )
                     )
@@ -130,8 +135,14 @@ class AccountRepositoryImpl(
 
 
     override suspend fun checkAuth(): Boolean {
-        val authU = userDao.checkAuth()
-        return authU?.loginAuth?.isNotEmpty() == true || authU?.loginAuth != null
+        val authUser = userDao.checkAuthentication()
+        var trueLogin = false
+        for (loginAuth in authUser) {
+            if (loginAuth.loginAuth != null && loginAuth.uid == loginAuth.loginAuth) {
+                trueLogin = true
+            }
+        }
+        return trueLogin
     }
 
     companion object {

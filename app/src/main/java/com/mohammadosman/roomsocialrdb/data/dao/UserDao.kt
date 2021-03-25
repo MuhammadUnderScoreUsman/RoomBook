@@ -26,8 +26,14 @@ interface UserDao {
     @Query("Select * from user where room_mail_address = :rMail")
     suspend fun checkUserViaEmail(rMail: String): User?
 
+    @Query("Select * from user where user_name = :userName")
+    suspend fun checkUserViaUsername(userName: String): User?
+
     @Query("Select * from user_account")
     suspend fun checkAuth(): UserAccount?
+
+    @Query("Select * from user_account")
+    suspend fun checkAuthentication(): List<UserAccount>
 
     @Query("Update user_account SET login_auth = :loginAu where uid = :id")
     suspend fun updateUserAccForLoginAuth(

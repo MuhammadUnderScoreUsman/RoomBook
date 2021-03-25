@@ -65,7 +65,7 @@ class SignInFragment : BaseAuthFragment() {
                             parentFragmentManager.commit {
                                 setReorderingAllowed(true)
                                 replace<PostFragment>(R.id.fragment_container_view)
-                                addToBackStack("SignInFragment")
+                                // removed the unnecessary backstack from here
                             }
                         }
                     }
