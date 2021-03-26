@@ -69,13 +69,10 @@ class PostAdapter(
         private val imgView: ImageView = itmView.findViewById(R.id.imgView_postImg)
 
         fun bind(t: Posts) {
-         //   username.text = t.userAccount.userName
-          //  t.listOfPosts?.forEach {
-                desc.text = t.postDesc
-                imgView.setImageResource(t.postPicture ?: 0)
-            }
-      //  }
-
+            desc.text = t.postDesc
+            imgView.setImageResource(t.postPicture ?: 0)
+            username.text = "Created by: ${t.userName}"
+        }
     }
 
 }

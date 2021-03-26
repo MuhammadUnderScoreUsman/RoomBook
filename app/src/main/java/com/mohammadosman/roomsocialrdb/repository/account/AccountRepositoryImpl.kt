@@ -133,7 +133,6 @@ class AccountRepositoryImpl(
         }
     }
 
-
     override suspend fun checkAuth(): Boolean {
         val authUser = userDao.checkAuthentication()
         var trueLogin = false

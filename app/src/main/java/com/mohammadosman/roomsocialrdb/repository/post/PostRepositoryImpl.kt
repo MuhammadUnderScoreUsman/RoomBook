@@ -1,7 +1,7 @@
 package com.mohammadosman.roomsocialrdb.repository.post
 
 import android.app.Application
-import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.mohammadosman.roomsocialrdb.data.dao.PostDao
 import com.mohammadosman.roomsocialrdb.data.dao.UserDao
 import com.mohammadosman.roomsocialrdb.data.db.SocialDatabase
@@ -13,11 +13,12 @@ import kotlinx.coroutines.flow.flow
 import java.util.*
 
 class PostRepositoryImpl(
-   application: Application
+    application: Application
 ) : PostRepository {
 
     var userDao: UserDao
     var postDao: PostDao
+
 
     init {
         val db = SocialDatabase.invoke(application)
@@ -26,16 +27,17 @@ class PostRepositoryImpl(
 
     }
 
+
     override suspend fun logout(): Boolean {
         val userAuthentication = userDao.checkAuthentication()
         var logout = false
         var getid = ""
         for (it in userAuthentication) {
-                if (it.loginAuth != null && it.loginAuth == it.uid) {
-                    getid = it.uid ?: ""
-                    logout = true
-                }
+            if (it.loginAuth != null && it.loginAuth == it.uid) {
+                getid = it.uid ?: ""
+                logout = true
             }
+        }
 
         if (logout) {
             val update = userDao.updateUserAccForLoginAuth(
@@ -49,15 +51,18 @@ class PostRepositoryImpl(
 
     override fun createPost(postPic: Int, postDesc: String): Flow<Response<Unit>> {
         return flow {
-            val checkAuthId = userDao.checkAuth()
-            checkAuthId?.let {
-                if (it.loginAuth?.isNotEmpty() == true || it.loginAuth != null) {
+            val checkAuthId = userDao.checkAuthentication()
+            checkAuthId.forEach {
+                if (it.loginAuth?.isNotEmpty() == true || it.loginAuth != null &&
+                    it.loginAuth == it.uid
+                ) {
                     val createPost = postDao.insertPosts(
                         posts = Posts(
                             pId = UUID.randomUUID().toString(),
                             postPicture = postPic,
                             postDesc = postDesc,
-                            uid = it.loginAuth
+                            uid = it.loginAuth,
+                            userName = it.userName
                         )
                     )
                     if (createPost > 0) {

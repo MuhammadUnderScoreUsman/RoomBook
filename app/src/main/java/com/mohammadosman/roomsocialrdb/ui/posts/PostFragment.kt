@@ -44,20 +44,15 @@ class PostFragment : Fragment() {
     }
 
     private fun initObserver() {
+
+
         lifecycleScope.launch {
-            viewModel.getPost().collect {
-                it.forEach {
-                    it.listOfPosts?.let {
-                        postAdapter.submitList(it)
-                    }
-                }
+            viewModel.getAllPost().collect {
+                postAdapter.submitList(it.reversed())
+                postAdapter.notifyDataSetChanged()
             }
-            /*viewModel.getAllPost().collect {
-                postAdapter.submitList(it)
-            }*/
         }
     }
-
 
     private fun initAdapter() {
         binding.resViewPost.apply {
@@ -69,11 +64,13 @@ class PostFragment : Fragment() {
     }
 
     private fun createBlog() {
+
         binding.createPost.setOnClickListener {
             viewModel.createPost(
-                R.drawable.ic_email,
+                R.drawable.cake,
                 postDesc = "Hmmm222!! this cake looks so delicious."
             )
+            binding.resViewPost.smoothScrollToPosition(0)
         }
     }
 

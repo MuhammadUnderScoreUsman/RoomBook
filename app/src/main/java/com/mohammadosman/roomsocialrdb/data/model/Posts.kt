@@ -18,4 +18,8 @@ data class Posts(
     val postDesc: String? = null,
 
     val uid: String? = null,
+
+    val userName: String? = null
 )
+
+

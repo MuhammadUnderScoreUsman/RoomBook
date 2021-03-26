@@ -29,9 +29,9 @@ interface UserDao {
     @Query("Select * from user where user_name = :userName")
     suspend fun checkUserViaUsername(userName: String): User?
 
+
     @Query("Select * from user_account")
     suspend fun checkAuth(): UserAccount?
-
     @Query("Select * from user_account")
     suspend fun checkAuthentication(): List<UserAccount>
 
