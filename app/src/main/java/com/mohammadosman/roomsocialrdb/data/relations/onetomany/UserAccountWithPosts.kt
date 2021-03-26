@@ -5,8 +5,7 @@ import androidx.room.Relation
 import com.mohammadosman.roomsocialrdb.data.model.Posts
 import com.mohammadosman.roomsocialrdb.data.model.UserAccount
 
-// todo one to many Relation
-/*
+
 data class UserAccountWithPosts(
 
     @Embedded
@@ -18,4 +17,4 @@ data class UserAccountWithPosts(
     )
     val listOfPosts: List<Posts>? = emptyList()
 
-)*/
+)

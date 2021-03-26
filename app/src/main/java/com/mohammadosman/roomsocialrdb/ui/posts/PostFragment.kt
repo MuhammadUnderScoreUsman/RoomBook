@@ -12,7 +12,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mohammadosman.roomsocialrdb.R
 import com.mohammadosman.roomsocialrdb.databinding.FragmentPostBinding
+import com.mohammadosman.roomsocialrdb.ui.TopItemSpacing
 import com.mohammadosman.roomsocialrdb.ui.auth.SignInFragment
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class PostFragment : Fragment() {
@@ -21,6 +23,7 @@ class PostFragment : Fragment() {
     private val binding: FragmentPostBinding get() = _binding!!
 
     private val viewModel by viewModels<PostViewModel>()
+    lateinit var postAdapter: PostAdapter
 
 
     override fun onCreateView(
@@ -35,6 +38,43 @@ class PostFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initAdapter()
+        initObserver()
+        logout()
+        createBlog()
+    }
+
+    private fun initObserver() {
+
+
+        lifecycleScope.launch {
+            viewModel.getAllPost().collect {
+                postAdapter.submitList(it.reversed())
+                postAdapter.notifyDataSetChanged()
+            }
+        }
+    }
+
+    private fun initAdapter() {
+        binding.resViewPost.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            postAdapter = PostAdapter()
+            addItemDecoration(TopItemSpacing(30))
+            adapter = postAdapter
+        }
+    }
+
+    private fun createBlog() {
+
+        binding.createPost.setOnClickListener {
+            viewModel.createPost(
+                R.drawable.cake,
+                postDesc = "Hmmm222!! this cake looks so delicious."
+            )
+            binding.resViewPost.smoothScrollToPosition(0)
+        }
+    }
+
+    private fun logout() {
         binding.btnLogout.setOnClickListener {
             lifecycleScope.launch {
                 if (viewModel.logout()) {
@@ -46,19 +86,6 @@ class PostFragment : Fragment() {
                     return@launch
                 }
             }
-
-        }
-    }
-
-    private fun initObserver() {
-
-    }
-
-
-    private fun initAdapter() {
-        binding.resViewPost.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-
         }
     }
 
