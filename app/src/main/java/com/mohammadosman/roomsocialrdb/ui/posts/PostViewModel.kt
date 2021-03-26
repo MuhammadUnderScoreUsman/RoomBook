@@ -31,7 +31,6 @@ class PostViewModel(application: Application) : BaseViewModel(application) {
 
     }
 
-    fun getPost() = repo.returnList()
 
     fun getAllPost() = repo.returnPosts()
 

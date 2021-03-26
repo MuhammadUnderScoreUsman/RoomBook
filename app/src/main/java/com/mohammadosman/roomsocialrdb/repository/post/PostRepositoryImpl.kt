@@ -80,9 +80,6 @@ class PostRepositoryImpl(
         }
     }
 
-    override fun returnList(): Flow<List<UserAccountWithPosts>> {
-        return postDao.getAllPost()
-    }
 
     override fun returnPosts(): Flow<List<Posts>> {
         return postDao.getPosts()
