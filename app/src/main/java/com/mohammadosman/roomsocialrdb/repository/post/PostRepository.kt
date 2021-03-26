@@ -15,8 +15,6 @@ interface PostRepository {
         postDesc: String
     ): Flow<Response<Unit>>
 
-    fun returnList() : Flow<List<UserAccountWithPosts>>
-
     fun returnPosts() :Flow<List<Posts>>
 
 }
